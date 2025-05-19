@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -24,13 +24,13 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 5/6/2024
  */
-@Config
+@Configurable
 @Autonomous(name = "Turn Localizer Tuner", group = ".Localization")
 public class TurnTuner extends OpMode {
     private Follower follower;
     private DashboardPoseTracker dashboardPoseTracker;
 
-    private Telemetry telemetryA;
+    private TelemetryManager telemetryM;
 
     public static double ANGLE = 2 * Math.PI;
 
@@ -43,9 +43,9 @@ public class TurnTuner extends OpMode {
 
         dashboardPoseTracker = follower.getDashboardPoseTracker();
 
-        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetryA.addLine("Turn your robot " + ANGLE + " radians. Your turn ticks to inches will be shown on the telemetry.");
-        telemetryA.update();
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("Turn your robot " + ANGLE + " radians. Your turn ticks to inches will be shown on the telemetry.");
+        telemetryM.update(telemetry);
 
         Drawing.drawRobot(follower.getPose(), "#4CAF50");
         Drawing.sendPacket();
@@ -59,9 +59,10 @@ public class TurnTuner extends OpMode {
     public void loop() {
         follower.update();
 
-        telemetryA.addData("total angle", follower.getTotalHeading());
-        telemetryA.addLine("The multiplier will display what your turn ticks to inches should be to scale your current angle to " + ANGLE + " radians.");
-        telemetryA.addData("multiplier", ANGLE / (follower.getTotalHeading() / follower.getPoseTracker().getLocalizer().getTurningMultiplier()));
+        telemetryM.debug("total angle", follower.getTotalHeading());
+        telemetryM.debug("The multiplier will display what your turn ticks to inches should be to scale your current angle to " + ANGLE + " radians.");
+        telemetryM.debug("multiplier", ANGLE / (follower.getTotalHeading() / follower.getPoseTracker().getLocalizer().getTurningMultiplier()));
+        telemetryM.update(telemetry);
 
         Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
         Drawing.drawRobot(follower.getPose(), "#4CAF50");

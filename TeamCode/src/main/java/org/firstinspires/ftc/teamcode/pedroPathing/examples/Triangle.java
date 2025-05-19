@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -32,7 +32,7 @@ public class Triangle extends OpMode {
 
     private PathChain triangle;
 
-    private Telemetry telemetryA;
+    private TelemetryManager telemetryM;
 
     /**
      * This runs the OpMode, updating the Follower as well as printing out the debug statements to
@@ -56,6 +56,8 @@ public class Triangle extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
 
+        telemetryM = Panels.getTelemetry();
+
         triangle = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, interPose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), interPose.getHeading())
@@ -67,11 +69,10 @@ public class Triangle extends OpMode {
 
         follower.followPath(triangle);
 
-        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetryA.addLine("This will run in a roughly triangular shape,"
+        telemetryM.debug("This will run in a roughly triangular shape,"
                 + "starting on the bottom-middle point. So, make sure you have enough "
                 + "space to the left, front, and right to run the OpMode.");
-        telemetryA.update();
+        telemetryM.update(telemetry);
     }
 
 }

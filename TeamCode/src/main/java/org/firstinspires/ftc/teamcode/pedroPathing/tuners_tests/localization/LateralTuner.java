@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.pedropathing.util.DashboardPoseTracker;
 import com.pedropathing.util.Drawing;
 
@@ -21,18 +20,17 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * at the end of the distance, record the ticks to inches multiplier. Feel free to run multiple trials
  * and average the results. Then, input the multiplier into the strafe ticks to inches in your
  * localizer of choice.
- * You can adjust the target distance on FTC Dashboard: 192/168/43/1:8080/dash
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 5/6/2024
  */
-@Config
+@Configurable
 @Autonomous(name = "Lateral Localizer Tuner", group = ".Localization")
 public class LateralTuner extends OpMode {
     private Follower follower;
     private DashboardPoseTracker dashboardPoseTracker;
 
-    private Telemetry telemetryA;
+    private TelemetryManager telemetryM;
 
     public static double DISTANCE = 48;
 
@@ -45,9 +43,9 @@ public class LateralTuner extends OpMode {
 
         dashboardPoseTracker = follower.getDashboardPoseTracker();
 
-        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetryA.addLine("Pull your robot to the right " + DISTANCE + " inches. Your strafe ticks to inches will be shown on the telemetry.");
-        telemetryA.update();
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("Pull your robot to the right " + DISTANCE + " inches. Your strafe ticks to inches will be shown on the telemetry.");
+        telemetryM.update(telemetry);
 
         Drawing.drawRobot(follower.getPose(), "#4CAF50");
         Drawing.sendPacket();
@@ -61,10 +59,10 @@ public class LateralTuner extends OpMode {
     public void loop() {
         follower.update();
 
-        telemetryA.addData("distance moved", follower.getPose().getY());
-        telemetryA.addLine("The multiplier will display what your strafe ticks to inches should be to scale your current distance to " + DISTANCE + " inches.");
-        telemetryA.addData("multiplier", DISTANCE / (follower.getPose().getY() / follower.getPoseTracker().getLocalizer().getLateralMultiplier()));
-        telemetryA.update();
+        telemetryM.debug("distance moved", follower.getPose().getY());
+        telemetryM.debug("The multiplier will display what your strafe ticks to inches should be to scale your current distance to " + DISTANCE + " inches.");
+        telemetryM.debug("multiplier", DISTANCE / (follower.getPose().getY() / follower.getPoseTracker().getLocalizer().getLateralMultiplier()));
+        telemetryM.update(telemetry);
 
         Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
         Drawing.drawRobot(follower.getPose(), "#4CAF50");

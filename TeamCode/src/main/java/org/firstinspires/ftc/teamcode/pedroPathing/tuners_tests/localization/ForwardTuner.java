@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.util.Drawing;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -21,18 +21,17 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * at the end of the distance, record the ticks to inches multiplier. Feel free to run multiple trials
  * and average the results. Then, input the multiplier into the forward ticks to inches in your
  * localizer of choice.
- * You can adjust the target distance on FTC Dashboard: 192/168/43/1:8080/dash
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 5/6/2024
  */
-@Config
+@Configurable
 @Autonomous(name = "Forward Localizer Tuner", group = ".Localization")
 public class ForwardTuner extends OpMode {
     private Follower follower;
     private DashboardPoseTracker dashboardPoseTracker;
 
-    private Telemetry telemetryA;
+    private TelemetryManager telemetryM;
 
     public static double DISTANCE = 48;
 
@@ -45,9 +44,9 @@ public class ForwardTuner extends OpMode {
 
         dashboardPoseTracker = follower.getDashboardPoseTracker();
 
-        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetryA.addLine("Pull your robot forward " + DISTANCE + " inches. Your forward ticks to inches will be shown on the telemetry.");
-        telemetryA.update();
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("Pull your robot forward " + DISTANCE + " inches. Your forward ticks to inches will be shown on the telemetry.");
+        telemetryM.update(telemetry);
     }
 
     /**
@@ -58,10 +57,10 @@ public class ForwardTuner extends OpMode {
     public void loop() {
         follower.update();
 
-        telemetryA.addData("distance moved", follower.getPose().getX());
-        telemetryA.addLine("The multiplier will display what your forward ticks to inches should be to scale your current distance to " + DISTANCE + " inches.");
-        telemetryA.addData("multiplier", DISTANCE / (follower.getPose().getX() / follower.getPoseTracker().getLocalizer().getForwardMultiplier()));
-        telemetryA.update();
+        telemetryM.debug("distance moved", follower.getPose().getX());
+        telemetryM.debug("The multiplier will display what your forward ticks to inches should be to scale your current distance to " + DISTANCE + " inches.");
+        telemetryM.debug("multiplier", DISTANCE / (follower.getPose().getX() / follower.getPoseTracker().getLocalizer().getForwardMultiplier()));
+        telemetryM.update(telemetry);
 
         Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
         Drawing.drawRobot(follower.getPose(), "#4CAF50");

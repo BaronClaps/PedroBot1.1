@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.drivetrain.MecanumConstants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,18 +10,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import java.util.Arrays;
 import java.util.List;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
+@Configurable
 @TeleOp(name = "Motor Directions", group = "Teleop Test")
 public class MotorDirections extends OpMode {
-    MecanumConstants constants;
+    public static MecanumConstants constants;
+    public static double test = 1;
 
-    private Telemetry telemetryA;
+    private TelemetryManager telemetryM;
 
     private DcMotorEx leftFront;
     private DcMotorEx leftRear;
@@ -53,9 +54,9 @@ public class MotorDirections extends OpMode {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
-        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetryA.addLine("This will allow you to test the directions of your motors. You can change the directions in FTCDashboard -> FollowerConstants.");
-        telemetryA.update();
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("This will allow you to test the directions of your motors. You can change the directions in FTCDashboard -> FollowerConstants.");
+        telemetryM.update(telemetry);
     }
 
     @Override
@@ -85,14 +86,14 @@ public class MotorDirections extends OpMode {
         else
             rightRear.setPower(0);
 
-        telemetryA.addLine("Press A to spin the left front motor at 100% power");
-        telemetryA.addLine("Press Y to spin the left rear motor at 100% power");
-        telemetryA.addLine("Press B to spin the right front motor at 100% power");
-        telemetryA.addLine("Press X to spin the right rear motor at 100% power");
-        telemetryA.addData("Left Front Motor Direction: ", constants.leftFrontMotorDirection);
-        telemetryA.addData("Left Rear Motor Direction: ", constants.leftRearMotorDirection);
-        telemetryA.addData("Right Front Motor Direction: ", constants.rightFrontMotorDirection);
-        telemetryA.addData("Right Rear Motor Direction: ", constants.rightRearMotorDirection);
-        telemetryA.update();
+        telemetryM.debug("Press A to spin the left front motor at 100% power");
+        telemetryM.debug("Press Y to spin the left rear motor at 100% power");
+        telemetryM.debug("Press B to spin the right front motor at 100% power");
+        telemetryM.debug("Press X to spin the right rear motor at 100% power");
+        telemetryM.debug("Left Front Motor Direction: " + constants.leftFrontMotorDirection);
+        telemetryM.debug("Left Rear Motor Direction: "+ constants.leftRearMotorDirection);
+        telemetryM.debug("Right Front Motor Direction: "+ constants.rightFrontMotorDirection);
+        telemetryM.debug("Right Rear Motor Direction: "+ constants.rightRearMotorDirection);
+        telemetryM.update(telemetry);
     }
 }

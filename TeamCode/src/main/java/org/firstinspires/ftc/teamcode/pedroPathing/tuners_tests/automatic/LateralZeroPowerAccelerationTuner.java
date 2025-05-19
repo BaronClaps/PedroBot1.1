@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.automatic;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.MathFunctions;
 import com.pedropathing.math.Vector;
@@ -22,17 +22,17 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * that number is then printed. This is used to determine how the robot will decelerate in the
  * forward direction when power is cut, making the estimations used in the calculations for the
  * drive Vector more accurate and giving better braking at the end of Paths.
- * You can adjust the max velocity the robot will hit on FTC Dashboard: 192/168/43/1:8080/dash
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @author Aaron Yang - 10158 Scott's Bots
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/13/2024
  */
-@Config
+@Configurable
 @Autonomous(name = "Lateral Zero Power Acceleration Tuner", group = "Automatic Tuners")
 public class LateralZeroPowerAccelerationTuner extends OpMode {
     private Follower follower;
+    private TelemetryManager telemetryM;
 
     private ArrayList<Double> accelerations = new ArrayList<>();
     public static double VELOCITY = 30;
@@ -44,19 +44,19 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
     private boolean end;
 
     /**
-     * This initializes the drive motors as well as the FTC Dashboard telemetry.
+     * This initializes the drive motors as well as the FTC Dashboard telemetryM.
      */
     @Override
     public void init() {
         follower = Constants.createFollower(hardwareMap);
 
-        telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry.addLine("The robot will run to the right until it reaches " + VELOCITY + " inches per second.");
-        telemetry.addLine("Then, it will cut power from the drivetrain and roll to a stop.");
-        telemetry.addLine("Make sure you have enough room.");
-        telemetry.addLine("After stopping, the lateral zero power acceleration (natural deceleration) will be displayed.");
-        telemetry.addLine("Press CROSS or A on game pad 1 to stop.");
-        telemetry.update();
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("The robot will run to the right until it reaches " + VELOCITY + " inches per second.");
+        telemetryM.debug("Then, it will cut power from the drivetrain and roll to a stop.");
+        telemetryM.debug("Make sure you have enough room.");
+        telemetryM.debug("After stopping, the lateral zero power acceleration (natural deceleration) will be displayed.");
+        telemetryM.debug("Press CROSS or A on game pad 1 to stop.");
+        telemetryM.update(telemetry);
     }
 
     /**
@@ -106,8 +106,8 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
             }
             average /= accelerations.size();
 
-            telemetry.addData("lateral zero power acceleration (deceleration):", average);
-            telemetry.update();
+            telemetryM.debug("lateral zero power acceleration (deceleration):", average);
+            telemetryM.update(telemetry);
         }
     }
 

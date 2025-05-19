@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.automatic;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.MathFunctions;
 import com.pedropathing.math.Vector;
@@ -21,19 +21,19 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * is, when paired with ForwardVelocityTuner, allows FollowerConstants to create a Vector that
  * empirically represents the direction your mecanum wheels actually prefer to go in, allowing for
  * more accurate following.
- * You can adjust the distance the robot will travel on FTC Dashboard: 192/168/43/1:8080/dash
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @author Aaron Yang - 10158 Scott's Bots
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/13/2024
  */
-@Config
+@Configurable
 @Autonomous(name = "Strafe Velocity Tuner", group = "Automatic Tuners")
 public class StrafeVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();
 
     private Follower follower;
+    private TelemetryManager telemetryM;
 
     public static double DISTANCE = 48;
     public static double RECORD_NUMBER = 10;
@@ -42,7 +42,7 @@ public class StrafeVelocityTuner extends OpMode {
 
     /**
      * This initializes the drive motors as well as the cache of velocities and the FTC Dashboard
-     * telemetry.
+     * telemetryM.
      */
     @Override
     public void init() {
@@ -52,12 +52,12 @@ public class StrafeVelocityTuner extends OpMode {
             velocities.add(0.0);
         }
 
-        telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry.addLine("The robot will run at 1 power until it reaches " + DISTANCE + " inches to the right.");
-        telemetry.addLine("Make sure you have enough room, since the robot has inertia after cutting power.");
-        telemetry.addLine("After running the distance, the robot will cut power from the drivetrain and display the strafe velocity.");
-        telemetry.addLine("Press CROSS or A on game pad 1 to stop.");
-        telemetry.update();
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("The robot will run at 1 power until it reaches " + DISTANCE + " inches to the right.");
+        telemetryM.debug("Make sure you have enough room, since the robot has inertia after cutting power.");
+        telemetryM.debug("After running the distance, the robot will cut power from the drivetrain and display the strafe velocity.");
+        telemetryM.debug("Press CROSS or A on game pad 1 to stop.");
+        telemetryM.update(telemetry);
     }
 
     /**
@@ -99,8 +99,8 @@ public class StrafeVelocityTuner extends OpMode {
             }
             average /= velocities.size();
 
-            telemetry.addData("strafe velocity:", average);
-            telemetry.update();
+            telemetryM.debug("strafe velocity:", average);
+            telemetryM.update(telemetry);
         }
     }
 

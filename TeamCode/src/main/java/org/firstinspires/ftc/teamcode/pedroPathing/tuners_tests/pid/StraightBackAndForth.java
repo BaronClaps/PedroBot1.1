@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.pid;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.ftcontrol.panels.Panels;
+import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
+import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
@@ -27,10 +27,10 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/12/2024
  */
-@Config
+@Configurable
 @Autonomous (name = "Straight Back And Forth", group = "PIDF Tuning")
 public class StraightBackAndForth extends OpMode {
-    private Telemetry telemetryA;
+    private TelemetryManager telemetryM;
 
     public static double DISTANCE = 40;
 
@@ -56,11 +56,11 @@ public class StraightBackAndForth extends OpMode {
 
         follower.followPath(forwards);
 
-        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetryA.addLine("This will run the robot in a straight line going " + DISTANCE
+        telemetryM = Panels.getTelemetry();
+        telemetryM.debug("This will run the robot in a straight line going " + DISTANCE
                             + " inches forward. The robot will go forward and backward continuously"
                             + " along the path. Make sure you have enough room.");
-        telemetryA.update();
+        telemetryM.update(telemetry);
     }
 
     /**
@@ -80,6 +80,7 @@ public class StraightBackAndForth extends OpMode {
             }
         }
 
-        telemetryA.addData("going forward", forward);
+        telemetryM.debug("going forward", forward);
+        telemetryM.update(telemetry);
     }
 }
