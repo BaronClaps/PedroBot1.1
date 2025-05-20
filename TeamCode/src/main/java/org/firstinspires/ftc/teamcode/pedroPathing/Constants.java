@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Configurable
+//@Configurable
 public class Constants {
 
     public static FollowerConstants followerConstants = new FollowerConstants()

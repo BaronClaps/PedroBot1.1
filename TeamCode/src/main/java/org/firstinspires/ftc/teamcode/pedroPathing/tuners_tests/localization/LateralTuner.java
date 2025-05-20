@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 import com.bylazar.ftcontrol.panels.Panels;
 import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
 import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
+import com.bylazar.ftcontrol.panels.json.Look;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -24,7 +25,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 5/6/2024
  */
-@Configurable
+//@Configurable
 @Autonomous(name = "Lateral Localizer Tuner", group = ".Localization")
 public class LateralTuner extends OpMode {
     private Follower follower;
@@ -47,7 +48,7 @@ public class LateralTuner extends OpMode {
         telemetryM.debug("Pull your robot to the right " + DISTANCE + " inches. Your strafe ticks to inches will be shown on the telemetry.");
         telemetryM.update(telemetry);
 
-        Drawing.drawRobot(follower.getPose(), "#4CAF50");
+        Drawing.drawRobot(follower.getPose());
         Drawing.sendPacket();
     }
 
@@ -64,8 +65,8 @@ public class LateralTuner extends OpMode {
         telemetryM.debug("multiplier", DISTANCE / (follower.getPose().getY() / follower.getPoseTracker().getLocalizer().getLateralMultiplier()));
         telemetryM.update(telemetry);
 
-        Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
-        Drawing.drawRobot(follower.getPose(), "#4CAF50");
+        Drawing.drawPoseHistory(dashboardPoseTracker);
+        Drawing.drawRobot(follower.getPose());
         Drawing.sendPacket();
     }
 }

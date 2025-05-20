@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Configurable
+//@Configurable
 @TeleOp(name = "Motor Directions", group = "Teleop Test")
 public class MotorDirections extends OpMode {
     public static MecanumConstants constants;

@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.ftcontrol.panels.Panels;
 import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
 import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
+import com.bylazar.ftcontrol.panels.json.Look;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,10 +23,12 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 5/6/2024
  */
+@Config
 @Configurable
 @TeleOp(group = "Teleop Test", name = "Localization Test")
 public class LocalizationTest extends OpMode {
     public static Follower follower;
+    public static String hello = "hello";
     private DashboardPoseTracker dashboardPoseTracker;
     private TelemetryManager telemetryM;
 
@@ -44,7 +48,7 @@ public class LocalizationTest extends OpMode {
 
         follower.update();
 
-        Drawing.drawRobot(follower.getPose(), "#4CAF50");
+        Drawing.drawRobot(follower.getPose());
         Drawing.sendPacket();
     }
 
@@ -70,8 +74,8 @@ public class LocalizationTest extends OpMode {
         telemetryM.debug("total heading:" + follower.getTotalHeading());
         telemetryM.update(telemetry);
 
-        Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");
-        Drawing.drawRobot(follower.getPose(), "#4CAF50");
+        Drawing.drawPoseHistory(dashboardPoseTracker);
+        Drawing.drawRobot(follower.getPose());
         Drawing.sendPacket();
     }
 }

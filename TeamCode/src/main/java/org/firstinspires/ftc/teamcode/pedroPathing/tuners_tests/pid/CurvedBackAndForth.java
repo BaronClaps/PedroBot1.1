@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/13/2024
  */
-@Configurable
+//@Configurable
 @Autonomous (name = "Curved Back And Forth", group = "PIDF Testing")
 public class CurvedBackAndForth extends OpMode {
     private TelemetryManager telemetryM;
