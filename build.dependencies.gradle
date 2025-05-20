@@ -18,10 +18,10 @@ dependencies {
     implementation 'org.firstinspires.ftc:FtcCommon:10.2.0'
     implementation 'org.firstinspires.ftc:Vision:10.2.0'
 
-    implementation 'com.pedropathing:dev:1.1.0-devlocal8'
+    implementation 'com.pedropathing:dev:1.1.0-dev4'
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation "com.bylazar:ftcontrol:0.5.7"
+    implementation "com.bylazar:ftcontrol:0.5.9"
     implementation "com.acmerobotics.dashboard:dashboard:0.4.16"
 }
 
