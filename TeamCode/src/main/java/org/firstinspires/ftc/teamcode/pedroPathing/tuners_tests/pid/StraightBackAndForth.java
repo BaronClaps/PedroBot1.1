@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/12/2024
  */
-//@Configurable
+@Configurable
 @Autonomous (name = "Straight Back And Forth", group = "PIDF Tuning")
 public class StraightBackAndForth extends OpMode {
     private TelemetryManager telemetryM;
@@ -36,7 +36,7 @@ public class StraightBackAndForth extends OpMode {
 
     private boolean forward = true;
 
-    private Follower follower;
+    public static Follower follower;
 
     private Path forwards;
     private Path backwards;
@@ -80,6 +80,7 @@ public class StraightBackAndForth extends OpMode {
             }
         }
 
+        follower.debug(telemetryM);
         telemetryM.debug("going forward", forward);
         telemetryM.update(telemetry);
     }

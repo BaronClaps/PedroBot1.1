@@ -130,7 +130,7 @@ public class ExampleBucketAuto extends OpMode {
                 .build();
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
-        park = new Path(new BezierCurve(scorePose, /* Control Point */ parkControlPose, parkPose));
+  /**blah      park = new Path(new BezierCurve(scorePose, /* Control Point */ //parkControlPose, parkPose));
         park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
     }
 
